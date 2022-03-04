@@ -10,7 +10,11 @@ public class OpenMenu : MonoBehaviour
 
     public void Open()
     {
-        settingsBtn.enabled = false;
         animator.SetTrigger("open");
+    }
+
+    public void Close()
+    {
+        animator.SetTrigger("close");
     }
 }
