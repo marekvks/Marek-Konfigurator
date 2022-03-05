@@ -21,15 +21,13 @@ public class SetAccessory : MonoBehaviour
         {
             foreach (Tuning.WheelAccessory item in tuning.wheelAccessories)
             {
-                if (item.name == accessoryName && item.accessoryClass == accessoryClass)
+                foreach (GameObject model in item.gameObjects)
                 {
-                    foreach (GameObject model in item.gameObjects)
+                    if (item.name == accessoryName && item.accessoryClass == accessoryClass)
                     {
                         model.SetActive(true);
                     }
-                } else if (item.name != accessoryName && item.accessoryClass == accessoryClass)             // lépe optimalizovat, zbavit se dvou foreachů
-                {
-                    foreach (GameObject model in item.gameObjects)
+                    else if (item.name != accessoryName && item.accessoryClass == accessoryClass)             // lépe optimalizovat, zbavit se dvou foreachů
                     {
                         model.SetActive(false);
                     }
@@ -49,7 +47,6 @@ public class SetAccessory : MonoBehaviour
         {
             foreach (Tuning.Spoiler item in tuning.spoilers)
             {
-                Debug.Log("sus");
                 if (item.name == accessoryName)
                 {
                     item.gameObject.SetActive(true);
