@@ -30,8 +30,8 @@ public class CameraRotation : MonoBehaviour
         if (Input.GetKey(KeyCode.Mouse0) && _canMove)
         {
             horizontal += Input.GetAxis("Mouse X") * sensitivity;
-            vertical -= Input.GetAxis("Mouse Y") * sensitivity;     // mínus, protože to chci obráceně
-            vertical = Mathf.Clamp(vertical, -60, 25);      // clamp - neklesne pod "-60" a nestoupne nad "25", nemám tam 0, 90, protože to nefunguje z nějakýho důvodu, tak jsem našel jiný souřadnice
+            vertical -= Input.GetAxis("Mouse Y") * sensitivity;     // mínus, protože to chci obráceně :P
+            vertical = Mathf.Clamp(vertical, -60, 25);      // clamp - neklesne pod "-60" a nestoupne nad "25", nemám tam 0, 90, protože to nefunguje ze super důvodu, tak jsem našel jiný souřadnice
 
             transform.LookAt(target);
             target.rotation = Quaternion.Euler(vertical, horizontal, 0f);       //  jsou otočený axis, vertical je x axis a horizontal y, to je, protože x se otáčí nahoru a dolu a y doprava a doleva
@@ -45,8 +45,6 @@ public class CameraRotation : MonoBehaviour
 
             Vector3 eulerRotation = transform.rotation.eulerAngles;
             transform.rotation = Quaternion.Euler(eulerRotation.x, eulerRotation.y, 0f);*/
-
-            //  i should probably play more around with this or create button that'll return the camera into the default position.
 
         }
         Animations();
