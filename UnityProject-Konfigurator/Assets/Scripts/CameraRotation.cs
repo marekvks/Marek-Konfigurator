@@ -15,7 +15,7 @@ public class CameraRotation : MonoBehaviour
     float horizontal = 0f, vertical = 0f;
     float saveHorizontalSpeed, saveVerticalSpeed;
 
-    private Vector3 lastFreeLookPointPos, LastFreeLookPointRot;
+    private Vector3 lastFreeLookPointPos, lastFreeLookPointRot;
     public Transform[] positions = new Transform[1];
 
     public bool _canMove = true;
@@ -53,11 +53,9 @@ public class CameraRotation : MonoBehaviour
             horizontal += saveHorizontalSpeed;  // Přidávám hodnoty k horizontal a vertical, protože přes tyto dvě proměnné rotuji kameru
             vertical += saveVerticalSpeed;
         }
-
-        Animations();
     }
 
-    private void Animations()
+    public void Animations(int animationIndex) // 0 - Free Look, 1 - Wheel, 2 - Spoiler
     {
         if (!_isViewingWheel && !_isViewingSpoiler)
         {
@@ -65,21 +63,21 @@ public class CameraRotation : MonoBehaviour
             lastFreeLookPointRot = transform.eulerAngles;
         }
 
-        if (Input.GetKeyDown(KeyCode.F) && !_isViewingWheel)
+        if (animationIndex == 1 && !_isViewingWheel)
         {
             _canMove = false;
             transform.DOMove(positions[0].position, smoothTime);
             transform.DORotate(positions[0].eulerAngles, smoothTime);
             _isViewingWheel = true;
             _isViewingSpoiler = false;
-        } else if (Input.GetKeyDown(KeyCode.G) && !_isViewingSpoiler)
+        } else if (animationIndex == 2 && !_isViewingSpoiler)
         {
             _canMove = false;
             transform.DOMove(positions[1].position, smoothTime);
             transform.DORotate(positions[1].eulerAngles, smoothTime);
             _isViewingWheel = false;
             _isViewingSpoiler = true;
-        } else if ((Input.GetKeyDown(KeyCode.F) && _isViewingWheel) || (Input.GetKeyDown(KeyCode.G) && _isViewingSpoiler))
+        } else if (animationIndex == 0 && (_isViewingWheel || _isViewingSpoiler))
         {
             transform.DOMove(lastFreeLookPointPos, smoothTime).OnComplete(() => _canMove = true);
             transform.DORotate(lastFreeLookPointRot, smoothTime);

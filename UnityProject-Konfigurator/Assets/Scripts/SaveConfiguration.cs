@@ -6,6 +6,8 @@ using System.IO;
 
 public class SaveConfiguration : MonoBehaviour
 {
+    public DynamicUI dynamicUIScript;
+
     string m_Path;
 
     public class Configuration
@@ -36,7 +38,7 @@ public class SaveConfiguration : MonoBehaviour
         {
             // Default configuration
             Configuration defaultConfig = new Configuration();
-            defaultConfig.tireName = "Stock Tires";
+            defaultConfig.tireName = "Stock Tire";
             defaultConfig.rimName = "Stock Rims";
             defaultConfig.paint = "Charcoal Grey";
             defaultConfig.spoilerName = "None";
@@ -51,5 +53,14 @@ public class SaveConfiguration : MonoBehaviour
         json = File.ReadAllText(m_Path);
 
         configurations = JsonConvert.DeserializeObject<List<Configuration>>(json);
+    }
+
+    public void OnClickSave()
+    {
+        Configuration saveCurrentConfig = dynamicUIScript.currentConfig;
+        configurations.Add(saveCurrentConfig);
+        SaveToJson(m_Path, configurations);
+        dynamicUIScript.savedConfigCount++;
+        dynamicUIScript.CreateConfigUI(saveCurrentConfig.paint, saveCurrentConfig.tireName, saveCurrentConfig.rimName, saveCurrentConfig.tireName);
     }
 }
