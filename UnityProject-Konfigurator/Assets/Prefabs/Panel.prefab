@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 2758046284943015926}
   - component: {fileID: 2758046284943015924}
   - component: {fileID: 2758046284943015927}
-  - component: {fileID: 7519453402619400699}
   - component: {fileID: -4963042308072904341}
   m_Layer: 5
   m_Name: Panel
@@ -79,22 +78,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &7519453402619400699
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2758046284943015921}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c9c466f1a98b9f24aa2983ee91e6ed81, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dynamicUI: {fileID: 0}
-  tuning: {fileID: 0}
-  gameObjectName: 
-  models: []
 --- !u!114 &-4963042308072904341
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -138,19 +121,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2758046284943015927}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 7519453402619400699}
-        m_TargetAssemblyTypeName: SetAccessory, Assembly-CSharp
-        m_MethodName: OnClick
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!1 &2758046285481488804
 GameObject:
   m_ObjectHideFlags: 0

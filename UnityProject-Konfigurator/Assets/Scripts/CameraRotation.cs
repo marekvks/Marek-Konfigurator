@@ -7,46 +7,53 @@ public class CameraRotation : MonoBehaviour
 {
     public Transform carCenter;
     public Transform target;
-    public float sensitivity = 1f;
 
+    public float speed = 0.9f;
     float smoothTime = 1f;
-    float velocity;
 
-    private Vector3 lastFreeLookPointPos;
-    private Vector3 lastFreeLookPointRot;
+    public float sensitivity = 1f;
+    float horizontal = 0f, vertical = 0f;
+    float saveHorizontalSpeed, saveVerticalSpeed;
+
+    private Vector3 lastFreeLookPointPos, LastFreeLookPointRot;
     public Transform[] positions = new Transform[1];
 
-    float xRot = 0f;
-
     public bool _canMove = true;
+    bool _isViewingWheel = false, _isViewingSpoiler = false;
 
-    bool _isViewingWheel;
-    bool _isViewingSpoiler;
 
-    float horizontal = 0f, vertical = 0f;
+
+    bool _isDragging = false;
 
     void Update()
     {
+        vertical = Mathf.Clamp(vertical, -60, 25);
+        target.rotation = Quaternion.Euler(vertical, horizontal, 0f);       //  jsou otočený axis, vertical je x axis a horizontal y, to je, protože x se otáčí nahoru a dolu a y doprava a doleva
+        
         if (Input.GetKey(KeyCode.Mouse0) && _canMove)
         {
             horizontal += Input.GetAxis("Mouse X") * sensitivity;
             vertical -= Input.GetAxis("Mouse Y") * sensitivity;     // mínus, protože to chci obráceně :P
-            vertical = Mathf.Clamp(vertical, -60, 25);      // clamp - neklesne pod "-60" a nestoupne nad "25", nemám tam 0, 90, protože to nefunguje ze super důvodu, tak jsem našel jiný souřadnice
 
-            transform.LookAt(target);
-            target.rotation = Quaternion.Euler(vertical, horizontal, 0f);       //  jsou otočený axis, vertical je x axis a horizontal y, to je, protože x se otáčí nahoru a dolu a y doprava a doleva
+            transform.LookAt(target);   // Kamera se dívá na střed auta
 
-            /*Vector3 dir = new Vector3(vertical, horizontal, 0f);      !!! Tenhle kód sice funguje (teda z části), ale je zbytečně těžký a není clampnutý !!!
+            _isDragging = true;
 
-            dir.z = 0f;
+            saveHorizontalSpeed = Input.GetAxis("Mouse X"); // Uložení hor. rychlosti
+            saveVerticalSpeed = -Input.GetAxis("Mouse Y");  // Uložení vert. rychlosti
 
-            if (canMove) { transform.RotateAround(new Vector3(0, 0, 0), Vector3.right, vertical * Time.deltaTime); }
-            transform.RotateAround(new Vector3(0, 0, 0), Vector3.up, horizontal * Time.deltaTime);
+        } else if (Input.GetKeyUp(KeyCode.Mouse0) && _isDragging)
+        {
+            _isDragging = false;
+        } else if (!_isDragging)  // Když nepoužívám myš pro otáčení, tak se stane blok kódu pod
+        {
+            saveHorizontalSpeed = Mathf.Lerp(saveHorizontalSpeed, 0f, speed); // Prostě získám hodnotu mezi saveHorizontalSpeed a 0 dle rychlosti se to snižuje (intertia)
+            saveVerticalSpeed = Mathf.Lerp(saveVerticalSpeed, 0f, speed);     // To samý zde :)
 
-            Vector3 eulerRotation = transform.rotation.eulerAngles;
-            transform.rotation = Quaternion.Euler(eulerRotation.x, eulerRotation.y, 0f);*/
-
+            horizontal += saveHorizontalSpeed;  // Přidávám hodnoty k horizontal a vertical, protože přes tyto dvě proměnné rotuji kameru
+            vertical += saveVerticalSpeed;
         }
+
         Animations();
     }
 

@@ -54,10 +54,61 @@ public class DynamicUI : MonoBehaviour
         this.image[1].sprite = image;
         this.title = instantiatedButton.GetComponentInChildren<TextMeshProUGUI>();
         this.title.text = title;
-        SetAccessory setAccessory = instantiatedButton.GetComponent<SetAccessory>();
-        setAccessory.dynamicUI = this;
-        setAccessory.tuning = tuningScript;
-        setAccessory.accessoryName = title;
-        setAccessory.accessoryClass = accessoryType;
+        //SetAccessory setAccessory = instantiatedButton.GetComponent<SetAccessory>();
+        //setAccessory.dynamicUI = this;
+        //setAccessory.tuning = tuningScript;
+        //setAccessory.accessoryName = title;
+        //setAccessory.accessoryClass = accessoryType;
+
+        instantiatedButton.GetComponent<Button>().onClick.AddListener(() =>
+        {
+            SetAccessory(title, accessoryType, instantiatedButton);
+        });
+    }
+
+    public void SetAccessory(string accessoryName, string accessoryClass, GameObject instantiatedButton)
+    {
+        if (instantiatedButton.transform.parent.name != parents[0].name && instantiatedButton.transform.parent.name != parents[3].name)
+        {
+            foreach (Tuning.WheelAccessory item in tuningScript.wheelAccessories)
+            {
+                foreach (GameObject model in item.gameObjects)
+                {
+                    if (item.name == accessoryName && item.accessoryClass == accessoryClass)
+                    {
+                        model.SetActive(true);
+                    }
+                    else if (item.name != accessoryName && item.accessoryClass == accessoryClass)             // lépe optimalizovat, zbavit se dvou foreachů
+                    {
+                        model.SetActive(false);
+                    }
+                }
+            }
+        }
+        else if (instantiatedButton.transform.parent.name == parents[0].name)
+        {
+            foreach (Tuning.Paint item in tuningScript.paints)
+            {
+                if (item.name == accessoryName)
+                {
+                    Debug.Log(tuningScript.paints.IndexOf(item));
+                    tuningScript.SetPaint(tuningScript.paints.IndexOf(item));
+                }
+            }
+        }
+        else if (instantiatedButton.transform.parent.name == parents[3].name)
+        {
+            foreach (Tuning.Spoiler item in tuningScript.spoilers)
+            {
+                if (item.name == accessoryName)
+                {
+                    item.gameObject.SetActive(true);
+                }
+                else
+                {
+                    item.gameObject.SetActive(false);
+                }
+            }
+        }
     }
 }
