@@ -70,11 +70,6 @@ public class DynamicUI : MonoBehaviour
         this.image[1].sprite = image;
         this.title = instantiatedButton.GetComponentInChildren<TextMeshProUGUI>();
         this.title.text = title;
-        //SetAccessory setAccessory = instantiatedButton.GetComponent<SetAccessory>();
-        //setAccessory.dynamicUI = this;
-        //setAccessory.tuning = tuningScript;
-        //setAccessory.accessoryName = title;
-        //setAccessory.accessoryClass = accessoryType;
 
         instantiatedButton.GetComponent<Button>().onClick.AddListener(() =>
         {
@@ -108,7 +103,6 @@ public class DynamicUI : MonoBehaviour
         currentConfig.tireName = config.tireName;
         currentConfig.rimName = config.rimName;
         currentConfig.spoilerName = config.spoilerName;
-        Debug.Log(config.paint);
 
         foreach (Tuning.WheelAccessory item in tuningScript.wheelAccessories)
         {
@@ -150,15 +144,12 @@ public class DynamicUI : MonoBehaviour
                             case "Tire":
                                 currentConfig.tireName = item.name;
                                 break;
-                            default:c
+                            default:
                                 break;
                         }
                         model.SetActive(true);
                     }
-                    else if (item.name != accessoryName && item.accessoryClass == accessoryClass)             // lépe optimalizovat, zbavit se dvou foreachů
-                    {
-                        model.SetActive(false);
-                    }
+                    else if (item.name != accessoryName && item.accessoryClass == accessoryClass) model.SetActive(false);
                 }
             }
         }
@@ -182,10 +173,7 @@ public class DynamicUI : MonoBehaviour
                     currentConfig.spoilerName = item.name;
                     item.gameObject.SetActive(true);
                 }
-                else
-                {
-                    item.gameObject.SetActive(false);
-                }
+                else item.gameObject.SetActive(false);
             }
         }
     }

@@ -5,6 +5,13 @@ using UnityEngine.UI;
 
 public class Tuning : MonoBehaviour
 {
+    public Renderer carRenderer;
+
+    public List<WheelAccessory> wheelAccessories = new List<WheelAccessory>();
+    public List<Paint> paints = new List<Paint>();
+    public List<Spoiler> spoilers = new List<Spoiler>();
+
+
     [System.Serializable]
     public class WheelAccessory
     {
@@ -13,8 +20,6 @@ public class Tuning : MonoBehaviour
         public Sprite image;
         public GameObject[] gameObjects = new GameObject[4];
     }
-
-    public Renderer carRenderer;
 
     [System.Serializable]
     public class Paint
@@ -31,10 +36,6 @@ public class Tuning : MonoBehaviour
         public Sprite image;
         public GameObject gameObject;
     }
-
-    public List<WheelAccessory> wheelAccessories = new List<WheelAccessory>();
-    public List<Paint> paints = new List<Paint>();
-    public List<Spoiler> spoilers = new List<Spoiler>();
 
     private void Awake()
     {

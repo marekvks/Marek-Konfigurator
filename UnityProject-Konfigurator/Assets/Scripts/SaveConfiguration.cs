@@ -8,8 +8,6 @@ public class SaveConfiguration : MonoBehaviour
 {
     public DynamicUI dynamicUIScript;
 
-    string m_Path;
-
     public class Configuration
     {
         public string tireName;
@@ -18,7 +16,8 @@ public class SaveConfiguration : MonoBehaviour
         public string spoilerName;
     }
 
-        public List<Configuration> configurations = new List<Configuration>();
+    string m_Path;
+    public List<Configuration> configurations = new List<Configuration>();
 
     private void Awake()
     {
@@ -49,7 +48,6 @@ public class SaveConfiguration : MonoBehaviour
         }
 
         string json;
-
         json = File.ReadAllText(m_Path);
 
         configurations = JsonConvert.DeserializeObject<List<Configuration>>(json);
@@ -57,10 +55,22 @@ public class SaveConfiguration : MonoBehaviour
 
     public void OnClickSave()
     {
-        Configuration saveCurrentConfig = dynamicUIScript.currentConfig;
-        configurations.Add(saveCurrentConfig);
+        //Debug.Log(dynamicUIScript.currentConfig.paint + " " + dynamicUIScript.currentConfig.tireName + " " + dynamicUIScript.currentConfig.rimName + " " + dynamicUIScript.currentConfig.spoilerName);
+        Configuration config = new Configuration
+        {
+            tireName = dynamicUIScript.currentConfig.tireName,
+            paint = dynamicUIScript.currentConfig.paint,
+            rimName = dynamicUIScript.currentConfig.rimName,
+            spoilerName = dynamicUIScript.currentConfig.spoilerName
+        };
+        configurations.Add(config);
         SaveToJson(m_Path, configurations);
         dynamicUIScript.savedConfigCount++;
-        dynamicUIScript.CreateConfigUI(saveCurrentConfig.paint, saveCurrentConfig.tireName, saveCurrentConfig.rimName, saveCurrentConfig.tireName);
+        dynamicUIScript.CreateConfigUI(dynamicUIScript.currentConfig.paint, dynamicUIScript.currentConfig.tireName, dynamicUIScript.currentConfig.rimName, dynamicUIScript.currentConfig.tireName);
+
+        foreach (Configuration conf in configurations)
+        {
+            Debug.Log(conf.paint + " " + conf.tireName + " " + conf.rimName + " " + conf.spoilerName);
+        }
     }
 }

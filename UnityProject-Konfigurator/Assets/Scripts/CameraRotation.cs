@@ -21,13 +21,11 @@ public class CameraRotation : MonoBehaviour
     public bool _canMove = true;
     bool _isViewingWheel = false, _isViewingSpoiler = false;
 
-
-
     bool _isDragging = false;
 
     void Update()
     {
-        vertical = Mathf.Clamp(vertical, -60, 25);
+        vertical = Mathf.Clamp(vertical, -30, 25);
         target.rotation = Quaternion.Euler(vertical, horizontal, 0f);       //  jsou otočený axis, vertical je x axis a horizontal y, to je, protože x se otáčí nahoru a dolu a y doprava a doleva
         
         if (Input.GetKey(KeyCode.Mouse0) && _canMove)
@@ -35,8 +33,7 @@ public class CameraRotation : MonoBehaviour
             horizontal += Input.GetAxis("Mouse X") * sensitivity;
             vertical -= Input.GetAxis("Mouse Y") * sensitivity;     // mínus, protože to chci obráceně :P
 
-            transform.LookAt(target);   // Kamera se dívá na střed auta
-
+            transform.LookAt(target);   // Kamera se rotuje na základě středu auta
             _isDragging = true;
 
             saveHorizontalSpeed = Input.GetAxis("Mouse X"); // Uložení hor. rychlosti
@@ -47,6 +44,7 @@ public class CameraRotation : MonoBehaviour
             _isDragging = false;
         } else if (!_isDragging)  // Když nepoužívám myš pro otáčení, tak se stane blok kódu pod
         {
+            // Some spooky math
             saveHorizontalSpeed = Mathf.Lerp(saveHorizontalSpeed, 0f, speed); // Prostě získám hodnotu mezi saveHorizontalSpeed a 0 dle rychlosti se to snižuje (intertia)
             saveVerticalSpeed = Mathf.Lerp(saveVerticalSpeed, 0f, speed);     // To samý zde :)
 
@@ -70,6 +68,7 @@ public class CameraRotation : MonoBehaviour
             transform.DORotate(positions[0].eulerAngles, smoothTime);
             _isViewingWheel = true;
             _isViewingSpoiler = false;
+            _canMove = false;
         } else if (animationIndex == 2 && !_isViewingSpoiler)
         {
             _canMove = false;
