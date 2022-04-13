@@ -47,8 +47,7 @@ public class SaveConfiguration : MonoBehaviour
             return;
         }
 
-        string json;
-        json = File.ReadAllText(m_Path);
+        string json = File.ReadAllText(m_Path);
 
         configurations = JsonConvert.DeserializeObject<List<Configuration>>(json);
     }
