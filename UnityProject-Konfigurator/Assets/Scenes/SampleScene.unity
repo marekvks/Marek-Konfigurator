@@ -2822,7 +2822,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 963194229}
         m_TargetAssemblyTypeName: CameraRotation, Assembly-CSharp
-        m_MethodName: Animations
+        m_MethodName: Animation
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3288,7 +3288,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 479458009}
-  - component: {fileID: 479458008}
   - component: {fileID: 479458010}
   m_Layer: 0
   m_Name: UI Manager
@@ -3297,21 +3296,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &479458008
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 479458007}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f30fdd5433f38c24da3a7fb8a424c15d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  animator: {fileID: 257234533}
-  settingsBtn: {fileID: 1924121044}
-  cameraRotation: {fileID: 963194229}
 --- !u!4 &479458009
 Transform:
   m_ObjectHideFlags: 0
@@ -3341,8 +3325,6 @@ MonoBehaviour:
   tuningScript: {fileID: 541630601}
   button: {fileID: 1606893484229917613, guid: 8c8d3acd3d07738408df764267fa0c46, type: 3}
   image: []
-  Rim: {fileID: 0}
-  Tire: {fileID: 0}
   saveConfig: {fileID: 944023427}
   savedConfigCount: 0
   parents:
@@ -3838,7 +3820,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 963194229}
         m_TargetAssemblyTypeName: CameraRotation, Assembly-CSharp
-        m_MethodName: Animations
+        m_MethodName: Animation
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4127,105 +4109,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97dc6ff0e8ee46a4c9f6e55e0107ef08, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  carRenderer: {fileID: 6225002005274590500}
-  wheelAccessories:
-  - name: Stock Rims
-    accessoryClass: Rim
-    image: {fileID: 0}
-    gameObjects:
-    - {fileID: 6212673668217228894}
-    - {fileID: 1077991931}
-    - {fileID: 1865851277}
-    - {fileID: 1935514753}
-  - name: 5x5 Rims
-    accessoryClass: Rim
-    image: {fileID: 21300000, guid: 5ef414889710b0a44b255211c619a33c, type: 3}
-    gameObjects:
-    - {fileID: 1335670592449361665}
-    - {fileID: 991022801}
-    - {fileID: 437637188}
-    - {fileID: 1991588931}
-  - name: 5x10 Rims
-    accessoryClass: Rim
-    image: {fileID: 21300000, guid: 5ef414889710b0a44b255211c619a33c, type: 3}
-    gameObjects:
-    - {fileID: 9062404037720750206}
-    - {fileID: 1069683763}
-    - {fileID: 172449464}
-    - {fileID: 1164938112}
-  - name: 5x20 Rims
-    accessoryClass: Rim
-    image: {fileID: 21300000, guid: 0f3679913cfb88141aa4aebcd2cfee38, type: 3}
-    gameObjects:
-    - {fileID: 7791367588355593677}
-    - {fileID: 2044110172}
-    - {fileID: 568157966}
-    - {fileID: 960407637}
-  - name: Stock Tire
-    accessoryClass: Tire
-    image: {fileID: 0}
-    gameObjects:
-    - {fileID: 1220999675}
-    - {fileID: 1753489658}
-    - {fileID: 1648472976}
-    - {fileID: 1416339290}
-  - name: Tire 1
-    accessoryClass: Tire
-    image: {fileID: 21300000, guid: f7fb407576ad58d49b3a4bd1ad58c16d, type: 3}
-    gameObjects:
-    - {fileID: 6471611137431102747}
-    - {fileID: 416533559}
-    - {fileID: 1348728989}
-    - {fileID: 494808879}
-  - name: Tire 2
-    accessoryClass: Tire
-    image: {fileID: 21300000, guid: 8f58846e3551e5647af7476c46c62c93, type: 3}
-    gameObjects:
-    - {fileID: 5471615459695848913}
-    - {fileID: 398902608}
-    - {fileID: 1256149507}
-    - {fileID: 1684054154}
-  paints:
-  - name: Bumblebee Yellow
-    image: {fileID: 0}
-    material: {fileID: 2100000, guid: c88b1fe26666a3641bc0ded60693e10c, type: 2}
-  - name: Charcoal Grey
-    image: {fileID: 0}
-    material: {fileID: 2100000, guid: 2f7081591d78ed644b423da5aa032817, type: 2}
-  - name: Cherry Red
-    image: {fileID: 0}
-    material: {fileID: 2100000, guid: c4bda2935c36a0c4381763bc14d74643, type: 2}
-  - name: Magenta
-    image: {fileID: 0}
-    material: {fileID: 2100000, guid: 3a97b8924e11594438cc144135101fb2, type: 2}
-  - name: Midnight Blue
-    image: {fileID: 0}
-    material: {fileID: 2100000, guid: ab880fb586e755c43a59c6c4fba1d2be, type: 2}
-  - name: Mint
-    image: {fileID: 0}
-    material: {fileID: 2100000, guid: 020f89375b9aad24baa0b94b5798d5dd, type: 2}
-  spoilers:
-  - name: Spoiler 1 Alluminium
-    image: {fileID: 21300000, guid: 7c10d398fcb1a704bae1c6a567cbfb73, type: 3}
-    gameObject: {fileID: 3530911737201438600}
-  - name: Spoiler 1 Carbon Fibre
-    image: {fileID: 21300000, guid: 9bd18d737bf69cc4d80beef15622531a, type: 3}
-    gameObject: {fileID: 6975726774092853352}
-  - name: Spoiler 1 Painted
-    image: {fileID: 21300000, guid: b6616a908df311646b2009e30af5cdd4, type: 3}
-    gameObject: {fileID: 7327459481945168353}
-  - name: Spoiler 2 White
-    image: {fileID: 21300000, guid: d6d8ab8ba9ccd5a46b8aae8087bb176e, type: 3}
-    gameObject: {fileID: 9103403618364461978}
-  - name: Spoiler 2 Red
-    image: {fileID: 21300000, guid: 266abbff5b0a29240a18e8c731c304db, type: 3}
-    gameObject: {fileID: 4745180273261186164}
-  - name: Spoiler 3 Carbon Fibre
-    image: {fileID: 21300000, guid: 00b6fc021b6c8dd4ba39c30423276aa0, type: 3}
-    gameObject: {fileID: 3422940522253046150}
-  - name: Spoiler 3 Painted
-    image: {fileID: 21300000, guid: 86428017a6b95e14bafc17b2181740a9, type: 3}
-    gameObject: {fileID: 8997676020459643392}
+  CarRenderer: {fileID: 0}
+  WheelAccessories: []
+  Paints: []
+  Spoilers: []
 --- !u!4 &541630602
 Transform:
   m_ObjectHideFlags: 0
@@ -6545,7 +6432,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 963194229}
         m_TargetAssemblyTypeName: CameraRotation, Assembly-CSharp
-        m_MethodName: Animations
+        m_MethodName: Animation
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -6941,14 +6828,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a22fccec5b1d7eb4bb300823171081a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  carCenter: {fileID: 6214748071127076156}
-  target: {fileID: 425176564}
+  Target: {fileID: 425176564}
   speed: 0.01
-  sensitivity: 1
-  positions:
-  - {fileID: 887103271}
-  - {fileID: 678441569}
-  _canMove: 1
+  _smoothAnimationTime: 1
+  _sensitivity: 1
+  WheelTarget: {fileID: 887103271}
+  SpoilerTarget: {fileID: 678441569}
+  minClamp: -35
+  maxClamp: 25
 --- !u!1 &971699681
 GameObject:
   m_ObjectHideFlags: 0
@@ -7041,7 +6928,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 963194229}
         m_TargetAssemblyTypeName: CameraRotation, Assembly-CSharp
-        m_MethodName: Animations
+        m_MethodName: Animation
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -10294,7 +10181,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 479458008}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: OpenMenu, Assembly-CSharp
         m_MethodName: Open
         m_Mode: 1
@@ -11004,7 +10891,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 963194229}
         m_TargetAssemblyTypeName: CameraRotation, Assembly-CSharp
-        m_MethodName: Animations
+        m_MethodName: Animation
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -13851,7 +13738,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 479458008}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: OpenMenu, Assembly-CSharp
         m_MethodName: Open
         m_Mode: 1
@@ -14402,7 +14289,7 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 963194229}
         m_TargetAssemblyTypeName: CameraRotation, Assembly-CSharp
-        m_MethodName: Animations
+        m_MethodName: Animation
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

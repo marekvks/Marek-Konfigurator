@@ -12,9 +12,6 @@ public class DynamicUI : MonoBehaviour
     public Image[] image;
     TextMeshProUGUI title;
 
-    public GameObject Rim;
-    public GameObject Tire;
-
     public SaveConfiguration saveConfig;
     public int savedConfigCount = 0;
 
@@ -29,7 +26,7 @@ public class DynamicUI : MonoBehaviour
         currentConfig.paint = "Charcoal Grey";
         currentConfig.spoilerName = "None";
 
-        foreach (Tuning.WheelAccessory item in tuningScript.wheelAccessories)
+        foreach (Tuning.WheelAccessory item in tuningScript.WheelAccessories)
         {
             switch (item.accessoryClass)
             {
@@ -39,17 +36,15 @@ public class DynamicUI : MonoBehaviour
                 case "Tire":
                     CreateUI(item.accessoryClass, parents[2], item.name, item.gameObjects, item.image);
                     break;
-                default:
-                    break;
             }
         }
 
-        foreach (Tuning.Paint item in tuningScript.paints)
+        foreach (Tuning.Paint item in tuningScript.Paints)
         {
             CreateUI("Paint", parents[0], item.name, null, item.image);
         }
 
-        foreach (Tuning.Spoiler item in tuningScript.spoilers)
+        foreach (Tuning.Spoiler item in tuningScript.Spoilers)
         {
             CreateUI("Spoiler", parents[3], item.name, null, item.image);
         }
@@ -104,7 +99,7 @@ public class DynamicUI : MonoBehaviour
         currentConfig.rimName = config.rimName;
         currentConfig.spoilerName = config.spoilerName;
 
-        foreach (Tuning.WheelAccessory item in tuningScript.wheelAccessories)
+        foreach (Tuning.WheelAccessory item in tuningScript.WheelAccessories)
         {
             foreach (GameObject model in item.gameObjects)
             {
@@ -114,12 +109,12 @@ public class DynamicUI : MonoBehaviour
             }
         }
 
-        foreach (Tuning.Paint item in tuningScript.paints)
+        foreach (Tuning.Paint item in tuningScript.Paints)
         {
-            if (item.name == config.paint) tuningScript.SetPaint(tuningScript.paints.IndexOf(item));
+            if (item.name == config.paint) tuningScript.SetPaint(tuningScript.Paints.IndexOf(item));
         }
 
-        foreach (Tuning.Spoiler item in tuningScript.spoilers)
+        foreach (Tuning.Spoiler item in tuningScript.Spoilers)
         {
             if (item.name == config.spoilerName) item.gameObject.SetActive(true);
             else item.gameObject.SetActive(false);
@@ -130,7 +125,7 @@ public class DynamicUI : MonoBehaviour
     {
         if (instantiatedButton.transform.parent.name != parents[0].name && instantiatedButton.transform.parent.name != parents[3].name)
         {
-            foreach (Tuning.WheelAccessory item in tuningScript.wheelAccessories)
+            foreach (Tuning.WheelAccessory item in tuningScript.WheelAccessories)
             {
                 foreach (GameObject model in item.gameObjects)
                 {
@@ -144,8 +139,6 @@ public class DynamicUI : MonoBehaviour
                             case "Tire":
                                 currentConfig.tireName = item.name;
                                 break;
-                            default:
-                                break;
                         }
                         model.SetActive(true);
                     }
@@ -155,18 +148,18 @@ public class DynamicUI : MonoBehaviour
         }
         else if (instantiatedButton.transform.parent.name == parents[0].name)
         {
-            foreach (Tuning.Paint item in tuningScript.paints)
+            foreach (Tuning.Paint item in tuningScript.Paints)
             {
                 if (item.name == accessoryName)
                 {
                     currentConfig.paint = item.name;
-                    tuningScript.SetPaint(tuningScript.paints.IndexOf(item));
+                    tuningScript.SetPaint(tuningScript.Paints.IndexOf(item));
                 }
             }
         }
         else if (instantiatedButton.transform.parent.name == parents[3].name)
         {
-            foreach (Tuning.Spoiler item in tuningScript.spoilers)
+            foreach (Tuning.Spoiler item in tuningScript.Spoilers)
             {
                 if (item.name == accessoryName)
                 {

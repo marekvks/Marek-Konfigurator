@@ -5,11 +5,11 @@ using UnityEngine.UI;
 
 public class Tuning : MonoBehaviour
 {
-    public Renderer carRenderer;
+    public Renderer CarRenderer;
 
-    public List<WheelAccessory> wheelAccessories = new List<WheelAccessory>();
-    public List<Paint> paints = new List<Paint>();
-    public List<Spoiler> spoilers = new List<Spoiler>();
+    public List<WheelAccessory> WheelAccessories = new List<WheelAccessory>();
+    public List<Paint> Paints = new List<Paint>();
+    public List<Spoiler> Spoilers = new List<Spoiler>();
 
 
     [System.Serializable]
@@ -17,8 +17,8 @@ public class Tuning : MonoBehaviour
     {
         public string name;
         public string accessoryClass;
-        public Sprite image;
-        public GameObject[] gameObjects = new GameObject[4];
+        public Sprite image; // Sprite pro náhledovku
+        public GameObject[] gameObjects = new GameObject[4]; // 4 kola
     }
 
     [System.Serializable]
@@ -44,6 +44,6 @@ public class Tuning : MonoBehaviour
 
     public void SetPaint(int index)
     {
-        carRenderer.material = paints[index].material;
+        CarRenderer.material = Paints[index].material;
     }
 }
