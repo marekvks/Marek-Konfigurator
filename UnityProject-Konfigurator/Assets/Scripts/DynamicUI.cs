@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -6,167 +7,157 @@ using TMPro;
 
 public class DynamicUI : MonoBehaviour
 {
-    public Tuning tuningScript;
+    [Header("Scripts")]
+    public Tuning TuningScript;
+    public SaveConfiguration SaveConfig;
 
-    public GameObject button;
-    public Image[] image;
-    TextMeshProUGUI title;
+    [Header("Prefabs")]
+    public GameObject Button;
 
-    public SaveConfiguration saveConfig;
-    public int savedConfigCount = 0;
+    [NonSerialized] public int savedConfigCount = 0;
 
-    public List<GameObject> parents = new List<GameObject>();       // 0 - Paint, 1 - Rim, 2 - Tire, 3 - Spoiler
+    [Header("UI Parents")]
+    public Transform PaintParent;
+    public Transform RimParent;
+    public Transform TireParent;
+    public Transform SpoilerParent;
+    public Transform ConfigParent;
 
-    public SaveConfiguration.Configuration currentConfig = new SaveConfiguration.Configuration();
+    [NonSerialized] public SaveConfiguration.Configuration CurrentConfig = new SaveConfiguration.Configuration();
+
+    private void Awake()
+    {
+        CurrentConfig = SaveConfig.DefaultConfig; // Načte defaultní config
+    }
 
     private void Start()
     {
-        currentConfig.tireName = "Stock Tire";
-        currentConfig.rimName = "Stock Rims";
-        currentConfig.paint = "Charcoal Grey";
-        currentConfig.spoilerName = "None";
-
-        foreach (Tuning.WheelAccessory item in tuningScript.WheelAccessories)
+        foreach (Tuning.WheelAccessory item in TuningScript.WheelAccessories)
         {
             switch (item.accessoryClass)
             {
                 case "Rim":
-                    CreateUI(item.accessoryClass, parents[1], item.name, item.gameObjects, item.image);
+                    CreateUI(item.accessoryClass, RimParent, item.name, item.gameObjects, item.image); // Vytváření UI pro Rims
                     break;
                 case "Tire":
-                    CreateUI(item.accessoryClass, parents[2], item.name, item.gameObjects, item.image);
+                    CreateUI(item.accessoryClass, TireParent, item.name, item.gameObjects, item.image); // Vytváření UI pro Tires
                     break;
             }
         }
 
-        foreach (Tuning.Paint item in tuningScript.Paints)
+        foreach (Tuning.Paint item in TuningScript.Paints)
         {
-            CreateUI("Paint", parents[0], item.name, null, item.image);
+            CreateUI("Paint", PaintParent, item.name, null, item.image); // Vytváření UI pro barvy
         }
 
-        foreach (Tuning.Spoiler item in tuningScript.Spoilers)
+        foreach (Tuning.Spoiler item in TuningScript.Spoilers)
         {
-            CreateUI("Spoiler", parents[3], item.name, null, item.image);
+            CreateUI("Spoiler", SpoilerParent, item.name, null, item.image); // Vytváření UI pro Spoilery
         }
 
-        foreach (SaveConfiguration.Configuration item in saveConfig.configurations)
+        foreach (SaveConfiguration.Configuration item in SaveConfig.Configurations)
         {
-            savedConfigCount++;
-            CreateConfigUI(item.paint, item.tireName, item.rimName, item.spoilerName);
+            savedConfigCount++; // Slouží k očíslovaní UI - Uložených konfigurací
+            CreateConfigUI(item.paint, item.tireName, item.rimName, item.spoilerName); // Vytváření UI pro uložené konfigurace
         }
     }
 
-    private void CreateUI(string accessoryType, GameObject parent, string title, GameObject[] accessory, Sprite image)
+    private void CreateUI(string accessoryType, Transform parent, string title, GameObject[] accessory, Sprite image)
     {
-        GameObject instantiatedButton = Instantiate(button);
-        instantiatedButton.transform.parent = parent.transform;
-        instantiatedButton.transform.localScale = new Vector3(1, 1, 1);
-        this.image = instantiatedButton.GetComponentsInChildren<Image>();
-        this.image[1].sprite = image;
-        this.title = instantiatedButton.GetComponentInChildren<TextMeshProUGUI>();
-        this.title.text = title;
-
-        instantiatedButton.GetComponent<Button>().onClick.AddListener(() =>
-        {
-            SetAccessory(title, accessoryType, instantiatedButton);
-        });
+        Debug.Log(parent.name);
+        GameObject instantiatedButton = Instantiate(Button, parent.transform); // Vytvoří GameObject s parentem ConfigParent a rovnou je uložen do  proměnné instantiatedButton
+        instantiatedButton.GetComponent<ConfigUI>().Initialize(title, image, () => SetAccessory(title, accessoryType, instantiatedButton)); // Přes ConfigUI script se na něj nastaví title, náhledovka a funkce - funkci (jen pokud se jedná o void funkci, která nic nevrací) musím nastavovat v anonymní funkci
     }
 
     public void CreateConfigUI(string paint, string tireName, string rimName, string spoilerName)
     {
-        SaveConfiguration.Configuration config = new SaveConfiguration.Configuration();
-        config.paint = paint;
-        config.tireName = tireName;
-        config.rimName = rimName;
-        config.spoilerName = spoilerName;
-
-        GameObject instantiatedButton = Instantiate(button);
-        instantiatedButton.transform.parent = parents[4].transform;
-        instantiatedButton.transform.localScale = new Vector3(1, 1, 1);
-        this.title = instantiatedButton.GetComponentInChildren<TextMeshProUGUI>();
-        this.title.text = "Config" + savedConfigCount;
-
-        instantiatedButton.GetComponent<Button>().onClick.AddListener(() =>
+        SaveConfiguration.Configuration config = new SaveConfiguration.Configuration()
         {
-            SetConfigAccessories(config);
-        });
+            paint = paint,
+            tireName = tireName,
+            rimName = rimName,
+            spoilerName = spoilerName,
+        };
+
+        GameObject instantiatedButton = Instantiate(Button, ConfigParent); // Vytvoří GameObject s parentem ConfigParent a rovnou je uložen do  proměnné instantiatedButton
+        instantiatedButton.GetComponent<ConfigUI>().Initialize($"Config {savedConfigCount}", null, () => SetConfigAccessories(config)); // Zase se přes ConfigUI script nastaví title, náhledovka a funkce - For some reason nemůžu passnout void funkci do System.Action, musím použít anonymní funkci
     }
 
     private void SetConfigAccessories(SaveConfiguration.Configuration config)
     {
-        currentConfig.paint = config.paint;
-        currentConfig.tireName = config.tireName;
-        currentConfig.rimName = config.rimName;
-        currentConfig.spoilerName = config.spoilerName;
+        CurrentConfig = config;
 
-        foreach (Tuning.WheelAccessory item in tuningScript.WheelAccessories)
+        foreach (Tuning.WheelAccessory item in TuningScript.WheelAccessories)
         {
             foreach (GameObject model in item.gameObjects)
             {
-                if (item.name == config.tireName) model.SetActive(true);
-                else if (item.name == config.rimName) model.SetActive(true);
-                else model.SetActive(false);
+                if (item.name == config.tireName) model.SetActive(true); // SetActive na pneumatiky
+                else if (item.name == config.rimName) model.SetActive(true); // SetActive na tires
+                else model.SetActive(false); // pokud se jedná o spoiler, tak SetActive(false)
             }
         }
 
-        foreach (Tuning.Paint item in tuningScript.Paints)
+        foreach (Tuning.Paint item in TuningScript.Paints)
         {
-            if (item.name == config.paint) tuningScript.SetPaint(tuningScript.Paints.IndexOf(item));
+            if (item.name == config.paint) TuningScript.SetPaint(TuningScript.Paints.IndexOf(item)); // Nastavování barvy
         }
 
-        foreach (Tuning.Spoiler item in tuningScript.Spoilers)
+        foreach (Tuning.Spoiler item in TuningScript.Spoilers)
         {
-            if (item.name == config.spoilerName) item.gameObject.SetActive(true);
+            if (item.name == config.spoilerName) item.gameObject.SetActive(true); // Nastavování spoileru
             else item.gameObject.SetActive(false);
         }
     }
 
     public void SetAccessory(string accessoryName, string accessoryClass, GameObject instantiatedButton)
     {
-        if (instantiatedButton.transform.parent.name != parents[0].name && instantiatedButton.transform.parent.name != parents[3].name)
+        string parentName = instantiatedButton.transform.parent.name;
+        if (parentName != PaintParent.name && parentName != SpoilerParent.name)
         {
-            foreach (Tuning.WheelAccessory item in tuningScript.WheelAccessories)
+            foreach (Tuning.WheelAccessory item in TuningScript.WheelAccessories) // Projede všechny accessories na kola - které jsou v jednom listu
             {
                 foreach (GameObject model in item.gameObjects)
                 {
-                    if (item.name == accessoryName && item.accessoryClass == accessoryClass)
+                    if (item.accessoryClass != accessoryClass) // pokud se accessory class nerovná tomu, co právě potřebuje, tak přeskočí na další
+                        continue;
+
+                    if (item.name == accessoryName)
                     {
                         switch (accessoryClass)
                         {
                             case "Rim":
-                                currentConfig.rimName = item.name;
+                                CurrentConfig.rimName = item.name; // Nastavování do current configu - potřebné k savování konfigurace
                                 break;
                             case "Tire":
-                                currentConfig.tireName = item.name;
+                                CurrentConfig.tireName = item.name; // Nastavování do current configu - potřebné k savování konfigurace
                                 break;
                         }
                         model.SetActive(true);
                     }
-                    else if (item.name != accessoryName && item.accessoryClass == accessoryClass) model.SetActive(false);
+                    else model.SetActive(false);
                 }
             }
         }
-        else if (instantiatedButton.transform.parent.name == parents[0].name)
+        else if (parentName == PaintParent.name)
         {
-            foreach (Tuning.Paint item in tuningScript.Paints)
+            foreach (Tuning.Paint item in TuningScript.Paints)
             {
-                if (item.name == accessoryName)
+                if (item.name == accessoryName) // Stejná logika pro barvy
                 {
-                    currentConfig.paint = item.name;
-                    tuningScript.SetPaint(tuningScript.Paints.IndexOf(item));
+                    CurrentConfig.paint = item.name;
+                    TuningScript.SetPaint(TuningScript.Paints.IndexOf(item));
                 }
             }
         }
-        else if (instantiatedButton.transform.parent.name == parents[3].name)
+        else if (parentName == SpoilerParent.name)
         {
-            foreach (Tuning.Spoiler item in tuningScript.Spoilers)
+            foreach (Tuning.Spoiler item in TuningScript.Spoilers) // Stejná logika pro křídla
             {
                 if (item.name == accessoryName)
                 {
-                    currentConfig.spoilerName = item.name;
+                    CurrentConfig.spoilerName = item.name;
                     item.gameObject.SetActive(true);
-                }
-                else item.gameObject.SetActive(false);
+                } else item.gameObject.SetActive(false);
             }
         }
     }

@@ -39,29 +39,29 @@ public class CameraRotation : MonoBehaviour
         if (!_canMove) return;
 
         _vertical = Mathf.Clamp(_vertical, minClamp, maxClamp);
-        Target.rotation = Quaternion.Euler(_vertical, _horizontal, 0f);       //  jsou otočený axis, vertical je x axis a horizontal y, to je, protože x se otáčí nahoru a dolu a y doprava a doleva
+        Target.rotation = Quaternion.Euler(_vertical, _horizontal, 0f); //  jsou otočený axis, vertical je x axis a horizontal y, to je, protože x se otáčí nahoru a dolu a y doprava a doleva
         
         if (Input.GetKey(KeyCode.Mouse0))
         {
             _horizontal += Input.GetAxis("Mouse X") * _sensitivity;
-            _vertical -= Input.GetAxis("Mouse Y") * _sensitivity;     // mínus, protože to chci obráceně :P
+            _vertical -= Input.GetAxis("Mouse Y") * _sensitivity; // mínus, protože to chci obráceně :P
 
-            transform.LookAt(Target);   // Kamera se rotuje na základě středu auta
+            transform.LookAt(Target); // Kamera se rotuje na základě středu auta
             _isDragging = true;
 
             _saveHorizontalSpeed = Input.GetAxis("Mouse X"); // Uložení hor. rychlosti
-            _saveVerticalSpeed = -Input.GetAxis("Mouse Y");  // Uložení vert. rychlosti
+            _saveVerticalSpeed = -Input.GetAxis("Mouse Y"); // Uložení vert. rychlosti
 
         } else if (Input.GetKeyUp(KeyCode.Mouse0) && _isDragging)
         {
             _isDragging = false;
-        } else if (!_isDragging)  // Když nepoužívám myš pro otáčení, tak se stane blok kódu pod
+        } else if (!_isDragging) // Když nepoužívám myš pro otáčení, tak se stane blok kódu pod
         {
             // Some spooky math
             _saveHorizontalSpeed = Mathf.Lerp(_saveHorizontalSpeed, 0f, speed); // Prostě získám hodnotu mezi saveHorizontalSpeed a 0 dle rychlosti se to snižuje (intertia)
-            _saveVerticalSpeed = Mathf.Lerp(_saveVerticalSpeed, 0f, speed);     // To samý zde :)
+            _saveVerticalSpeed = Mathf.Lerp(_saveVerticalSpeed, 0f, speed); // To samý zde :)
 
-            _horizontal += _saveHorizontalSpeed;  // Přidávám hodnoty k horizontal a vertical, protože přes tyto dvě proměnné rotuji kameru
+            _horizontal += _saveHorizontalSpeed; // Přidávám hodnoty k horizontal a vertical, protože přes tyto dvě proměnné rotuji kameru
             _vertical += _saveVerticalSpeed;
         }
     }
@@ -79,25 +79,24 @@ public class CameraRotation : MonoBehaviour
         
         if (!_isViewingWheel && !_isViewingSpoiler)
         {
-            _lastFreeLookPointPos = transform.position;
+            _lastFreeLookPointPos = transform.position; // Ukládání si pozice a rotace (řádek pod), aby potom bylo možné vrátit se do původní polohy, kde byla kamera, když byl ještě uživatel ve Free Looku
             _lastFreeLookPointRot = transform.eulerAngles;
         }
 
         if (type == AnimationType.Wheel && !_isViewingWheel)
         {
-            _canMove = false;
-            transform.DOMove(WheelTarget.position, _smoothAnimationTime);
+            transform.DOMove(WheelTarget.position, _smoothAnimationTime); // Animace přes Dotween
             transform.DORotate(WheelTarget.eulerAngles, _smoothAnimationTime);
             _isViewingWheel = true;
             _isViewingSpoiler = false;
             _canMove = false;
         } else if (type == AnimationType.Spoiler && !_isViewingSpoiler)
         {
-            _canMove = false;
             transform.DOMove(SpoilerTarget.position, _smoothAnimationTime);
             transform.DORotate(SpoilerTarget.eulerAngles, _smoothAnimationTime);
             _isViewingWheel = false;
             _isViewingSpoiler = true;
+            _canMove = false;
         } else if (type == AnimationType.FreeLook && (_isViewingWheel || _isViewingSpoiler))
         {
             _canMove = true;

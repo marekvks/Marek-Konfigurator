@@ -3322,17 +3322,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f904476d1f44a749a7d115f0cb94042, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tuningScript: {fileID: 541630601}
-  button: {fileID: 1606893484229917613, guid: 8c8d3acd3d07738408df764267fa0c46, type: 3}
-  image: []
-  saveConfig: {fileID: 944023427}
-  savedConfigCount: 0
-  parents:
-  - {fileID: 1694034308}
-  - {fileID: 884657442}
-  - {fileID: 1324208738}
-  - {fileID: 926277605}
-  - {fileID: 1219735196}
+  TuningScript: {fileID: 541630601}
+  SaveConfig: {fileID: 944023427}
+  Button: {fileID: 3674676432419992461, guid: 9589e570e6b966f4082ed1c6345263ba, type: 3}
+  PaintParent: {fileID: 1694034309}
+  RimParent: {fileID: 884657443}
+  TireParent: {fileID: 1324208739}
+  SpoilerParent: {fileID: 926277606}
+  ConfigParent: {fileID: 1219735197}
 --- !u!1 &482719659
 GameObject:
   m_ObjectHideFlags: 0
@@ -4109,10 +4106,105 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97dc6ff0e8ee46a4c9f6e55e0107ef08, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CarRenderer: {fileID: 0}
-  WheelAccessories: []
-  Paints: []
-  Spoilers: []
+  CarRenderer: {fileID: 6225002005274590500}
+  WheelAccessories:
+  - name: Stock Rims
+    accessoryClass: Rim
+    image: {fileID: 0}
+    gameObjects:
+    - {fileID: 6212673668217228894}
+    - {fileID: 1077991931}
+    - {fileID: 1865851277}
+    - {fileID: 1935514753}
+  - name: 5x5Rims
+    accessoryClass: Rim
+    image: {fileID: 0}
+    gameObjects:
+    - {fileID: 1335670592449361665}
+    - {fileID: 991022801}
+    - {fileID: 437637188}
+    - {fileID: 1991588931}
+  - name: 5x10Rims
+    accessoryClass: Rim
+    image: {fileID: 0}
+    gameObjects:
+    - {fileID: 9062404037720750206}
+    - {fileID: 1069683763}
+    - {fileID: 172449464}
+    - {fileID: 1164938112}
+  - name: 5x20Rims
+    accessoryClass: Rim
+    image: {fileID: 0}
+    gameObjects:
+    - {fileID: 7791367588355593677}
+    - {fileID: 2044110172}
+    - {fileID: 568157966}
+    - {fileID: 960407637}
+  - name: Stock Tire
+    accessoryClass: Tire
+    image: {fileID: 0}
+    gameObjects:
+    - {fileID: 1220999675}
+    - {fileID: 1753489658}
+    - {fileID: 1648472976}
+    - {fileID: 1416339290}
+  - name: Tire1
+    accessoryClass: Tire
+    image: {fileID: 0}
+    gameObjects:
+    - {fileID: 6471611137431102747}
+    - {fileID: 416533559}
+    - {fileID: 1348728989}
+    - {fileID: 494808879}
+  - name: Tire2
+    accessoryClass: Tire
+    image: {fileID: 0}
+    gameObjects:
+    - {fileID: 5471615459695848913}
+    - {fileID: 398902608}
+    - {fileID: 1256149507}
+    - {fileID: 1684054154}
+  Paints:
+  - name: Bumblebee Yellow
+    image: {fileID: 0}
+    material: {fileID: 2100000, guid: c88b1fe26666a3641bc0ded60693e10c, type: 2}
+  - name: Charcoal Grey
+    image: {fileID: 0}
+    material: {fileID: 2100000, guid: 2f7081591d78ed644b423da5aa032817, type: 2}
+  - name: Cherry Red
+    image: {fileID: 0}
+    material: {fileID: 2100000, guid: c4bda2935c36a0c4381763bc14d74643, type: 2}
+  - name: Magenta
+    image: {fileID: 0}
+    material: {fileID: 2100000, guid: 3a97b8924e11594438cc144135101fb2, type: 2}
+  - name: Midnight Blue
+    image: {fileID: 0}
+    material: {fileID: 2100000, guid: ab880fb586e755c43a59c6c4fba1d2be, type: 2}
+  - name: Mint
+    image: {fileID: 0}
+    material: {fileID: 2100000, guid: 020f89375b9aad24baa0b94b5798d5dd, type: 2}
+  Spoilers:
+  - name: 1 Alluminum
+    image: {fileID: 0}
+    gameObject: {fileID: 3530911737201438600}
+  - name: 1 Carbon Fibre
+    image: {fileID: 0}
+    gameObject: {fileID: 6975726774092853352}
+  - name: 1 Painted
+    image: {fileID: 0}
+    gameObject: {fileID: 7327459481945168353}
+  - name: 2 White
+    image: {fileID: 0}
+    gameObject: {fileID: 9103403618364461978}
+  - name: 2 Red
+    image: {fileID: 0}
+    gameObject: {fileID: 4745180273261186164}
+  - name: 3 Carbon Fibre
+    image: {fileID: 0}
+    gameObject: {fileID: 3422940522253046150}
+  - name: 3 Painted
+    image: {fileID: 0}
+    gameObject: {fileID: 8997676020459643392}
 --- !u!4 &541630602
 Transform:
   m_ObjectHideFlags: 0
@@ -14505,7 +14597,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -855.27844, y: 0.0012817383}
+  m_AnchoredPosition: {x: -855.27856, y: 0.0012207031}
   m_SizeDelta: {x: 174.4502, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2069262536

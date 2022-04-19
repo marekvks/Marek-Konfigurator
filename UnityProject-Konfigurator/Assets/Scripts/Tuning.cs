@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class Tuning : MonoBehaviour
 {
+    [Header("Components")]
     public Renderer CarRenderer;
 
     public List<WheelAccessory> WheelAccessories = new List<WheelAccessory>();
@@ -39,7 +40,7 @@ public class Tuning : MonoBehaviour
 
     private void Awake()
     {
-        SetPaint(1);
+        SetPaint(1); // Nastavení barvy na defaultní barvu
     }
 
     public void SetPaint(int index)

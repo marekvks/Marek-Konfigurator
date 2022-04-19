@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,6 +7,7 @@ using System.IO;
 
 public class SaveConfiguration : MonoBehaviour
 {
+    [Header("Scripts")]
     public DynamicUI dynamicUIScript;
 
     public class Configuration
@@ -15,61 +17,50 @@ public class SaveConfiguration : MonoBehaviour
         public string paint;
         public string spoilerName;
     }
+    
+    public Configuration DefaultConfig = new Configuration() // Defaultní konfigurace, použitá v případě, že nemám vytvořený soubor save.json
+    {
+        tireName = "Stock Tire",
+        rimName = "Stock Rims",
+        paint = "Charcoal Grey",
+        spoilerName = "None"
+    };
 
-    string m_Path;
-    public List<Configuration> configurations = new List<Configuration>();
+    string m_Path; // Cesta k souboru - deklarovaná ve funkci Awake
+    [NonSerialized] public List<Configuration> Configurations = new List<Configuration>(); // List konfigurací
 
     private void Awake()
     {
         m_Path = Application.persistentDataPath + "/save.json";
-        LoadFromJson();
+        LoadFromJson(); // V Awake funkci načítám z Jsonu
     }
 
     private void SaveToJson(string path, List<Configuration> configs)
     {
-        string json = JsonConvert.SerializeObject(configs, Formatting.None);
-        File.WriteAllText(path, json);
+        string json = JsonConvert.SerializeObject(configs, Formatting.None); // Serializování listu "configs" do json, ten potom do proměnné string (bez formátování)
+        File.WriteAllText(path, json); // Přepisování souboru
     }
 
     private void LoadFromJson()
     {
-        if (!File.Exists(m_Path))
+        if (!File.Exists(m_Path)) // Pokud neexistuje soubor save.json ...
         {
-            // Default configuration
-            Configuration defaultConfig = new Configuration();
-            defaultConfig.tireName = "Stock Tire";
-            defaultConfig.rimName = "Stock Rims";
-            defaultConfig.paint = "Charcoal Grey";
-            defaultConfig.spoilerName = "None";
-
-            configurations.Add(defaultConfig);
-            SaveToJson(m_Path, configurations);
-            return;
+            Configurations.Add(DefaultConfig); // Přidá se do listu "Configurations" defaultní konfigurace
+            SaveToJson(m_Path, Configurations); // Poté se spustí funkce, která mi konfiguraci uloží
+            return; // funkce skončí
         }
 
-        string json = File.ReadAllText(m_Path);
+        string json = File.ReadAllText(m_Path); // Přepisování souboru
 
-        configurations = JsonConvert.DeserializeObject<List<Configuration>>(json);
+        Configurations = JsonConvert.DeserializeObject<List<Configuration>>(json); // Deserializování listu uložených konfigurací (Configurations) a z toho se přímo nastavuje list "Configurations"
     }
 
     public void OnClickSave()
     {
-        //Debug.Log(dynamicUIScript.currentConfig.paint + " " + dynamicUIScript.currentConfig.tireName + " " + dynamicUIScript.currentConfig.rimName + " " + dynamicUIScript.currentConfig.spoilerName);
-        Configuration config = new Configuration
-        {
-            tireName = dynamicUIScript.currentConfig.tireName,
-            paint = dynamicUIScript.currentConfig.paint,
-            rimName = dynamicUIScript.currentConfig.rimName,
-            spoilerName = dynamicUIScript.currentConfig.spoilerName
-        };
-        configurations.Add(config);
-        SaveToJson(m_Path, configurations);
-        dynamicUIScript.savedConfigCount++;
-        dynamicUIScript.CreateConfigUI(dynamicUIScript.currentConfig.paint, dynamicUIScript.currentConfig.tireName, dynamicUIScript.currentConfig.rimName, dynamicUIScript.currentConfig.tireName);
-
-        foreach (Configuration conf in configurations)
-        {
-            Debug.Log(conf.paint + " " + conf.tireName + " " + conf.rimName + " " + conf.spoilerName);
-        }
+        Configuration config = dynamicUIScript.CurrentConfig; // Braní si currentConfig ze scriptu DynamicUI.cs a ukládání si ho do proměnné "config"
+        Configurations.Add(config); // Přidávání proměnné "config" do listu
+        SaveToJson(m_Path, Configurations); // Ukládání listu konfigurací
+        dynamicUIScript.savedConfigCount++; // Přičítání slouží k očíslovaní UI
+        dynamicUIScript.CreateConfigUI(dynamicUIScript.CurrentConfig.paint, dynamicUIScript.CurrentConfig.tireName, dynamicUIScript.CurrentConfig.rimName, dynamicUIScript.CurrentConfig.spoilerName); // Vytvoření UI
     }
 }
